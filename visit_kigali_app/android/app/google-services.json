@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "129948273465",
+    "firebase_url": "https://kigali-services-director-ffaf1-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "kigali-services-director-ffaf1",
+    "storage_bucket": "kigali-services-director-ffaf1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129948273465:android:ccbbdaf73d66c9b8c076e8",
+        "android_client_info": {
+          "package_name": "com.example.visit_kigali_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbPquil4D82nTDT4s63BTZqGkX2HXGKk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
