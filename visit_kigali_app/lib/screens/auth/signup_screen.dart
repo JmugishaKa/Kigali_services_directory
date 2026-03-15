@@ -77,7 +77,6 @@ class _SignupScreenState extends State<SignupScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              // Back Button
               Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
@@ -90,155 +89,167 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: Center(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          const Text(
-                            'Create Account',
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          
-                          const SizedBox(height: 10),
-                          
-                          const Text(
-                            'Join us to explore Kigali',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white70,
-                            ),
-                          ),
-                          
-                          const SizedBox(height: 40),
-                          
-                          // Name Field
-                          _buildTextField(
-                            controller: _nameController,
-                            label: 'Full Name',
-                            icon: Icons.person_outline,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return 'Please enter your name';
-                              }
-                              if (value.trim().length < 3) {
-                                return 'Name must be at least 3 characters';
-                              }
-                              return null;
-                            },
-                          ),
-                          
-                          const SizedBox(height: 16),
-                          
-                          // Email Field
-                          _buildTextField(
-                            controller: _emailController,
-                            label: 'Email',
-                            icon: Icons.email_outlined,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
-                              }
-                              if (!value.contains('@')) {
-                                return 'Please enter a valid email';
-                              }
-                              return null;
-                            },
-                          ),
-                          
-                          const SizedBox(height: 16),
-                          
-                          // Password Field
-                          _buildTextField(
-                            controller: _passwordController,
-                            label: 'Password',
-                            icon: Icons.lock_outline,
-                            obscureText: _obscurePassword,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                                color: Colors.grey,
+                    child: AutofillGroup(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Create Account',
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
+                            ),
+                            
+                            const SizedBox(height: 10),
+                            
+                            const Text(
+                              'Join us to explore Kigali',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white70,
+                              ),
+                            ),
+                            
+                            const SizedBox(height: 40),
+                            
+                            // Name Field with Autofill
+                            _buildTextField(
+                              controller: _nameController,
+                              label: 'Full Name',
+                              icon: Icons.person_outline,
+                              autofillHints: const [AutofillHints.name],
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.name,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Please enter your name';
+                                }
+                                if (value.trim().length < 3) {
+                                  return 'Name must be at least 3 characters';
+                                }
+                                return null;
                               },
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a password';
-                              }
-                              if (value.length < 6) {
-                                return 'Password must be at least 6 characters';
-                              }
-                              return null;
-                            },
-                          ),
-                          
-                          const SizedBox(height: 16),
-                          
-                          // Confirm Password Field
-                          _buildTextField(
-                            controller: _confirmPasswordController,
-                            label: 'Confirm Password',
-                            icon: Icons.lock_outline,
-                            obscureText: _obscureConfirmPassword,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                                color: Colors.grey,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _obscureConfirmPassword = !_obscureConfirmPassword;
-                                });
+                            
+                            const SizedBox(height: 16),
+                            
+                            // Email Field with Autofill
+                            _buildTextField(
+                              controller: _emailController,
+                              label: 'Email',
+                              icon: Icons.email_outlined,
+                              autofillHints: const [AutofillHints.email],
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your email';
+                                }
+                                if (!value.contains('@')) {
+                                  return 'Please enter a valid email';
+                                }
+                                return null;
                               },
                             ),
-                            validator: (value) {
-                              if (value != _passwordController.text) {
-                                return 'Passwords do not match';
-                              }
-                              return null;
-                            },
-                          ),
-                          
-                          const SizedBox(height: 30),
-                          
-                          // Sign Up Button
-                          SizedBox(
-                            width: double.infinity,
-                            height: 55,
-                            child: ElevatedButton(
-                              onPressed: authProvider.isLoading ? null : _signUp,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.blue.shade700,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                            
+                            const SizedBox(height: 16),
+                            
+                            // Password Field with Autofill
+                            _buildTextField(
+                              controller: _passwordController,
+                              label: 'Password',
+                              icon: Icons.lock_outline,
+                              obscureText: _obscurePassword,
+                              autofillHints: const [AutofillHints.newPassword],
+                              textInputAction: TextInputAction.next,
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                  color: Colors.grey,
                                 ),
-                                elevation: 5,
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
                               ),
-                              child: authProvider.isLoading
-                                  ? const SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: CircularProgressIndicator(strokeWidth: 2),
-                                    )
-                                  : const Text(
-                                      'Sign Up',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter a password';
+                                }
+                                if (value.length < 6) {
+                                  return 'Password must be at least 6 characters';
+                                }
+                                return null;
+                              },
                             ),
-                          ),
-                        ],
+                            
+                            const SizedBox(height: 16),
+                            
+                            // Confirm Password Field
+                            _buildTextField(
+                              controller: _confirmPasswordController,
+                              label: 'Confirm Password',
+                              icon: Icons.lock_outline,
+                              obscureText: _obscureConfirmPassword,
+                              autofillHints: const [AutofillHints.newPassword],
+                              textInputAction: TextInputAction.done,
+                              onFieldSubmitted: (_) => _signUp(),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscureConfirmPassword = !_obscureConfirmPassword;
+                                  });
+                                },
+                              ),
+                              validator: (value) {
+                                if (value != _passwordController.text) {
+                                  return 'Passwords do not match';
+                                }
+                                return null;
+                              },
+                            ),
+                            
+                            const SizedBox(height: 30),
+                            
+                            // Sign Up Button
+                            SizedBox(
+                              width: double.infinity,
+                              height: 55,
+                              child: ElevatedButton(
+                                onPressed: authProvider.isLoading ? null : _signUp,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.blue.shade700,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  elevation: 5,
+                                ),
+                                child: authProvider.isLoading
+                                    ? const SizedBox(
+                                        height: 24,
+                                        width: 24,
+                                        child: CircularProgressIndicator(strokeWidth: 2),
+                                      )
+                                    : const Text(
+                                        'Sign Up',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -258,6 +269,9 @@ class _SignupScreenState extends State<SignupScreen> {
     bool obscureText = false,
     Widget? suffixIcon,
     TextInputType? keyboardType,
+    List<String>? autofillHints,
+    TextInputAction? textInputAction,
+    void Function(String)? onFieldSubmitted,
     String? Function(String?)? validator,
   }) {
     return Container(
@@ -276,6 +290,9 @@ class _SignupScreenState extends State<SignupScreen> {
         controller: controller,
         obscureText: obscureText,
         keyboardType: keyboardType,
+        autofillHints: autofillHints,
+        textInputAction: textInputAction,
+        onFieldSubmitted: onFieldSubmitted,
         style: const TextStyle(fontSize: 16),
         decoration: InputDecoration(
           labelText: label,
